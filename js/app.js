@@ -22,7 +22,7 @@ form.addEventListener('submit', (e) => {
     //Validate that the select has something
     if(currencySelect === '' || cryptoCurrencySelect === '') {
         //Display an error
-        console.log('error');
+        ui.printMessage('All the Fields are Mandatory', 'deep-orange darken-4 card-panel');
     } else {
         console.log('succes');
     } 
