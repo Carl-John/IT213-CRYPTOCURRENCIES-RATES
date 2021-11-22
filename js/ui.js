@@ -45,7 +45,27 @@ class UI {
     }
 
     //Prints the result of the valuation/rate
-    displayResult(result) {
-        console.log(result);    
+    displayResult(result, currency) {
+        
+        //Read the currency
+        let currencyName;
+        currencyName = 'price_' + currency.toLowerCase();
+        //Read the result from the object
+        const value = result[currencyName];
+
+        let HTMLTemplate = '';
+
+        HTMLTemplate += `
+            <div class="card cyan draken-3">
+                <div class"card-content white-text">
+                    <span class="card-title">Result</span>
+                    <p>The Price of ${result.name} from ${currency} is $ ${value}</p>
+
+                </div>
+            </div>
+        `;
+
+        const divResult = document.querySelector('#result');
+        divResult.innerHTML = HTMLTemplate;
     }
 }
