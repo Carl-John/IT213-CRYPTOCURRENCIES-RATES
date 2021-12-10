@@ -1,28 +1,28 @@
+const proxyURL = "https://cors-anywhere.herokuapp.com/";
+const baseURL = 'https://pro-api.coinmarketcap.com/v1/';
+const apiKey = 'CMC_PRO_API_KEY=938f9a68-3315-4ad9-8566-f363a17f850e';
+
+const apiURL = `${proxyURL}${baseURL}`;
+console.log(apiURL);
+
 class CryptoAPI {
-    //Query the rest of API with a currency and cryptocurrency
 
-    async queryAPI(currency, cryptocurrency) {
-        //Query the URL
-        const url = await fetch(`https://api.coinmarketcap.com/v1/ticker/${cryptocurrency}/?convert=${currency}`);
+    // Query the REST API
+    async queryAPI(cur, crypto) {
+        const url = await fetch(`${apiURL}tools/price-conversion?amount=1&id=${crypto}&convert=${cur}&${apiKey}`);
 
-        //Return as JSON
-        const result = await url.json();
+        const conversion = await url.json();
 
-        //Return the Object
         return {
-            result
+            conversion
         }
-
     }
 
-    //Get all the Currencies
     async getCryptoCurrenciesList() {
-        const url = await fetch('https://api.coinmarketcap.com/v1/ticker/');
+        const url = await  fetch(`${apiURL}cryptocurrency/map?limit=99&${apiKey}`);
 
-        //Return as a JSON
         const cryptoCurrencies = await url.json();
 
-        //Return the Object
         return {
             cryptoCurrencies
         }

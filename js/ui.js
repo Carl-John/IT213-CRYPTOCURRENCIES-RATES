@@ -2,98 +2,69 @@ class UI {
     constructor() {
         this.init();
     }
+
     init() {
         this.printCryptoCurrencies();
     }
-    //Prints the option for the form
+
+    // prints the <option> for the form
     printCryptoCurrencies() {
-        cryptoAPI.getCryptoCurrenciesList()
-            .then(data => {
-                const cryptoCurrencies = data.cryptoCurrencies;
+        cryptoAPI.getCryptoCurrenciesList().then(data => {
+            // console.log(data.cryptoCurrencies.data);
 
-                //Build the <select> from the rest API
-                const select = document.getElementById('cryptocurrency');
+            const cryptoCurrencies = data.cryptoCurrencies.data;
+            // BUild the <select from the REST API
+            const select = document.getElementById('cryptocurrency')
 
-                cryptoCurrencies.forEach(currency => {
-                    //Add the options
-                    const option = document.createElement('option');
-                    option.value = currency.id;
-                    option.appendChild(document.createTextNode(currency.name));
-                    select.appendChild(option);
-                })
-            })
+            cryptoCurrencies.forEach(currency => {
+                // Add the <option>
+                const option = document.createElement('option');
+
+                option.value = currency.id;
+                option.appendChild(document.createTextNode(currency.name));
+
+                select.appendChild(option)
+            });
+        });
     }
 
-    //Prints a Message 2 parameters message and classes
-
-    printMessage(message, className) {
+    // print a message
+    printMessage(msg, className) {
         const div = document.createElement('div');
-        
-        //Add the Classes
+
+        // add the classes
         div.className = className;
-        //Add the Message
-        div.appendChild(document.createTextNode(message));
+
+        // add the message
+        div.appendChild(document.createTextNode(msg));
 
         const messagesDiv = document.querySelector('.messages');
 
         messagesDiv.appendChild(div);
 
-        //Remove the Message
+        // Remove the message
         setTimeout(() => {
             document.querySelector('.messages div').remove();
-        }, 3000);
+        }, 3000)
+
     }
 
-    //Prints the result of the valuation/rate
-    displayResult(result, currency) {
+    // Display the results
+    displayResult(data, cur) {
         
-        console.log(result);
-
-        //Read the currency
-        let currencyName;
-        currencyName = 'price_' + currency.toLowerCase();
-        //Read the result from the object
-        const value = result[currencyName];
-
-        //Remove the previous result
-        const prevResult = document.querySelector('#result > div');
-        if(prevResult) {
-            prevResult.remove();
-        }
-
-        let HTMLTemplate = '';
-        HTMLTemplate += `
-            <div class="card cyan draken-3">
-                <div class"card-content white-text">
-                    <span class="card-title">Result</span>
-                    <p>The Price of ${result.name} from ${currency} is $ ${value}</p>
-                    <p>Last Hour: ${result.percentage_change_1h} </p>
-                    <p>Last Day: ${result.percentage_change_124h} </p>
-                    <p>Last 7 Days: ${result.percentage_change_7d} </p>
+        let HTMLTemplate = `
+            <div class="card cyan darken-3">
+                <div class="card-content white-text">
+                    <span class="card-title">
+                        Result
+                    </span>
+                    <p>The price of 1 ${data.name} in ${cur} is ${data.quote[cur].price}.</p>
                 </div>
             </div>
         `;
 
-        //Print the Spinner
-        this.showSpinner();
-
-        //After 3sec print the result and remove the spinner
-       setTimeout(() => {
-           //Print the result
         const divResult = document.querySelector('#result');
         divResult.innerHTML = HTMLTemplate;
-
-        //Hide the spinner
-        document.querySelector('.spinner img').remove();
-       }, 3000);
-
-        
     }
 
-    //Prints the Spinner
-    showSpinner() {
-        const spinnerGIF = document.createElement('img');
-        spinnerGIF.src = 'img/spinner.gif';
-        document.querySelector('.spinner').appendChild(spinnerGIF);
-    }
 }

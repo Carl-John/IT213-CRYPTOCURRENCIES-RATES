@@ -1,34 +1,34 @@
-// Instanciate the Classes
-
 const cryptoAPI = new CryptoAPI();
+
 const ui = new UI();
 
-//Create the Variables
+// Create the variables
 
 const form = document.getElementById('form');
 
-
-
-//Add EventListener
-form.addEventListener('submit', (e) => {
+// Add event listener
+form.addEventListener('submit', (e)=> {
     e.preventDefault();
 
-    //Read Currencies
+    // Read Currency
     const currencySelect = document.getElementById('currency').value;
-    //Read Cryptocurrencies
-    const cryptoCurrencySelect = document.getElementById(cryptocurrency).value;
 
 
-    //Validate that the select has something
-    if(currencySelect === '' || cryptoCurrencySelect === '') {
-        //Display an error
-        ui.printMessage('All the Fields are Mandatory', 'deep-orange darken-4 card-panel');
-    } else {
-        //Query the rest API
-        cryptoAPI.queryAPI(currencySelect, cryptoCurrencySelect)
-            .then(data => {
-               ui.displayResult( data.result[0], currencySelect );
-            })
-    } 
+    // Red CryptoCurrency
+    const cryptoCurrencySelect = document.getElementById('cryptocurrency').value;
+
     
+    // Validate select has something
+    if(currencySelect === '' || cryptoCurrencySelect === '') {
+        // display an error
+        ui.printMessage('All the fields are mandatory', 'deep-orange darken-4 card-panel');
+    } else {
+
+        // Query the REST API
+        cryptoAPI.queryAPI(currencySelect, cryptoCurrencySelect).then(data => {
+            console.log(data.conversion);
+
+            ui.displayResult(data.conversion.data, currencySelect);
+        });
+    }
 })
